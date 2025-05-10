@@ -70,7 +70,7 @@ pub mod proc_mon {
     }
 
     fn get_processes() -> Result<HashSet<Proc>, ()> {
-        match fs::read_to_string(Path::new(BASE_DIR).join("tmp/procs.toml")) {
+        match fs::read_to_string(Path::new("/tmp/procs.toml")) {
             Ok(output) => {
                 let output = output.replace("\\", "\\\\");
                 match toml::from_str::<ProcList>(&output) {
@@ -131,18 +131,18 @@ pub mod proc_mon {
 
 #[cfg(test)]
     mod tests {
-        use crate::{BASE_DIR, Path};
+        use crate::Path;
         use super::proc_mon::load_script;
         use std::fs::exists;
 
         #[test]
         fn test_load_script() {
-            let _ = std::fs::remove_file(Path::new(BASE_DIR).join("tmp/procs.toml"));
+            let _ = std::fs::remove_file(Path::new("/tmp/procs.toml"));
 
             let _ = load_script();
 
-            assert!(exists(Path::new(BASE_DIR).join("tmp/procs.toml")).unwrap());
+            assert!(exists(Path::new("/tmp/procs.toml")).unwrap());
 
-            let _ = std::fs::remove_file(Path::new(BASE_DIR).join("tmp/procs.toml"));
+            let _ = std::fs::remove_file(Path::new("/tmp/procs.toml"));
         }
     }

@@ -59,7 +59,7 @@ pub mod shell_mon {
     }
 
     fn get_processes() -> Result<HashSet<ShellAccess>, ()> {
-        match fs::read_to_string(Path::new(BASE_DIR).join("tmp/shells.toml")) {
+        match fs::read_to_string(Path::new("/tmp/shells.toml")) {
             Ok(output) => {
                 let output = output.replace("\\", "\\\\");
                 match toml::from_str::<ShellAccessList>(&output) {
@@ -94,18 +94,18 @@ pub mod shell_mon {
 
 #[cfg(test)]
     mod tests {
-        use crate::{BASE_DIR, Path};
+        use crate::Path;
         use super::shell_mon::load_script;
         use std::fs::exists;
 
         #[test]
         fn test_load_script() {
-            let _ = std::fs::remove_file(Path::new(BASE_DIR).join("tmp/shells.toml"));
+            let _ = std::fs::remove_file(Path::new("/tmp/shells.toml"));
 
             let _ = load_script();
 
-            assert!(exists(Path::new(BASE_DIR).join("tmp/shells.toml")).unwrap());
+            assert!(exists(Path::new("/tmp/shells.toml")).unwrap());
 
-            let _ = std::fs::remove_file(Path::new(BASE_DIR).join("tmp/shells.toml"));
+            let _ = std::fs::remove_file(Path::new("/tmp/shells.toml"));
         }
     }
