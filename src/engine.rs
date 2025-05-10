@@ -58,26 +58,34 @@ impl Engine {
         let mut handles: Vec<tokio::task::JoinHandle<Modules>> = vec![];
         info!("Initiating monitoring...");
 
-        let engine_ref_clone = self.stream.clone();
-        handles.push(tokio::spawn(async move {
-            net_mon::init(engine_ref_clone).await
+        handles.push(tokio::spawn({
+            let stream = self.stream.clone();
+            async move {
+                info!("Loading NetMon...");
+                net_mon::init(stream).await
+            }
         }));
 
-
-        let engine_ref_clone = self.stream.clone();
-        handles.push(tokio::spawn(async move {
-            proc_mon::init(engine_ref_clone).await
+        handles.push(tokio::spawn({
+            let stream = self.stream.clone();
+            async move {
+                info!("Loading ProcMon...");
+                proc_mon::init(stream).await
+            }
         }));
 
-
-        let engine_ref_clone = self.stream.clone();
-        handles.push(tokio::spawn(async move {
-            shell_mon::init(engine_ref_clone).await
+        handles.push(tokio::spawn({
+            let stream = self.stream.clone();
+            async move {
+                info!("Loading ShellMon...");
+                shell_mon::init(stream).await
+            }
         }));
 
         for handle in handles {
-            if let Ok(module) = handle.await {
-                error!("Module unloaded: {:?}", module);
+            match handle.await {
+                Ok(module) => error!("Module unloaded: {:?}", module),
+                Err(_) => error!("Task panicked")
             }
         }
     }
