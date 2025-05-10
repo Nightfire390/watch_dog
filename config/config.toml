@@ -1,0 +1,11 @@
+ips = false
+
+[c2_addr]
+ip = "127.0.0.1"
+port = 8080
+
+[monitor]
+process = true
+network_traffic = true
+shell_access = true
+self_diagnosis = true

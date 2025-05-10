@@ -1,0 +1,13 @@
+ips = false
+
+[c2_addr]
+ip = "192.168.0.1"
+port = 8080
+
+[monitor]
+process = true
+network_traffic = false
+shell_access = true
+
+[network]
+interface = "wlp3s0 eth0"

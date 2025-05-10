@@ -1,0 +1,45 @@
+refresh_rate: 30 seconds
+appenders:
+  stdout:
+    kind: console 
+  engine:
+    kind: file
+    path: "/home/nightfire/Desktop/IDS/watch_dog/log/engine.log"
+    encoder:
+      pattern: "{d} - {m}{n}"
+  network:
+    kind: file
+    path: "/home/nightfire/Desktop/IDS/watch_dog/log/network_traffic.log"
+    encoder:
+      pattern: "{d} - {m}{n}"
+  process:
+    kind: file
+    path: "/home/nightfire/Desktop/IDS/watch_dog/log/process.log"
+    encoder:
+      pattern: "{d} - {m}{n}"
+  shell:
+    kind: file
+    path: "/home/nightfire/Desktop/IDS/watch_dog/log/shell.log"
+    encoder:
+      pattern: "{d} - {m}{n}"
+root:
+  level: info
+  appenders:
+    - stdout
+loggers:
+  watch_dog::engine:
+    level: info
+    appenders:
+      - engine
+  watch_dog::monitor::network:
+    level: info
+    appenders:
+      - network
+  watch_dog::monitor::process:
+    level: info
+    appenders:
+      - process
+  watch_dog::monitor::shell:
+    level: info
+    appenders:
+      - shell
