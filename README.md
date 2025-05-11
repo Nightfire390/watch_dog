@@ -15,9 +15,9 @@ Watch_Dog's monitor modules collect data from varous sources:
 
 Each monitor will feed data to their variant of ML powered analyzer that:
 
-- Analyze each data of the source
+- Analyze each of the data sources
 - Identify indicators of compromise
-- Relay the severity of the attack
+- Rate severity of the attack
 - Report findings to the control panel
 
 ## Quick Start
